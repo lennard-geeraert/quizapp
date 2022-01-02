@@ -8,12 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
-    let viewModel: quizappViewModel
+    // body will change when viewmodel notifice us that model changed
+    @ObservedObject var viewModel: quizappViewModel
     
     var body: some View {
         VStack {
             HStack {
                 back
+                Spacer()
+                // hier een groen vinkje zetten naast aantal juiste antwoorden en rood kruis naast het aantal onjuiste antwoorden
+                Text("\(viewModel.nrOfRightQuestions)")
+                    .foregroundColor(.black)
                 Spacer()
                 forward
             }
@@ -65,9 +70,17 @@ struct CardView: View {
         // use var when the value changes
         let shape = RoundedRectangle(cornerRadius: 20)
         ZStack {
-            shape
-                .fill()
-                .foregroundColor(.white)
+            let color = answer.backgroundColor
+            if(color == "green") {
+                shape
+                    .fill()
+                    .foregroundColor(.green)
+            }
+            else {
+                shape
+                    .fill()
+                    .foregroundColor(.white)
+            }
             shape
                 .stroke(lineWidth: 3)
                 .foregroundColor(.gray)
