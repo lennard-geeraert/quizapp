@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    var answers = ["Antwoord 1", "Antwoord 2", "Antwoord 3"]
+    let viewModel: quizappViewModel
     
     var body: some View {
         VStack {
@@ -19,11 +19,22 @@ struct ContentView: View {
             }
             .font(.largeTitle)
             .padding()
-            Spacer()
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 400))]) {
-                ForEach(answers, id: \.self){ answer in
-                    CardView(content: answer)
-                        .aspectRatio(3/1, contentMode: .fit)
+            ZStack {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill()
+                    .foregroundColor(.white)
+                Text(viewModel.questionAnswerPairs[0].question.content)
+                    .foregroundColor(.black)
+                    .padding()
+                    .font(.largeTitle)
+            }
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))]) {
+                ForEach(viewModel.questionAnswerPairs[0].getAnswers()){ answer in
+                    CardView(answer: answer)
+                        .aspectRatio(5/1, contentMode: .fit)
+                        .onTapGesture {
+                            viewModel.choose(answer)
+                        }
                 }
             }
             .padding(.bottom)
@@ -47,7 +58,7 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    var content: String
+    let answer: quizappModel.Answer
     
     var body: some View {
         // use let when value doesn't change == constant
@@ -60,23 +71,20 @@ struct CardView: View {
             shape
                 .stroke(lineWidth: 3)
                 .foregroundColor(.gray)
-            Text(content)
+            Text(answer.content)
                 .foregroundColor(.black)
                 .padding()
                 .font(.largeTitle)
-        }
-        .onTapGesture {
-            // hier ga je naar de volgende vraag
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let game = quizappViewModel()
+        ContentView(viewModel: game)
             .preferredColorScheme(.light)
-.previewInterfaceOrientation(.portrait)
-        ContentView()
+        ContentView(viewModel: game)
             .preferredColorScheme(.dark)
     }
 }
