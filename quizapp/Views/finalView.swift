@@ -9,8 +9,8 @@ import SwiftUI
 
 struct finalView: View
 {
-    var nrCorrect: Int
-    var nrInCorrect: Int
+    @Binding var nrCorrect: Int
+    @Binding var nrInCorrect: Int
     
     var body: some View
     {
@@ -104,12 +104,12 @@ struct imageView: View
 
 
 
+// how to initialize binding values here
 
-
-struct finalView_Previews: PreviewProvider
-{
-    static var previews: some View
-    {
-        finalView(nrCorrect: 0, nrInCorrect: 2)
-    }
-}
+//struct finalView_Previews: PreviewProvider
+//{
+//    static var previews: some View
+//    {
+//        finalView($nrCorrect: 0, $nrInCorrect: 2)
+//    }
+//}

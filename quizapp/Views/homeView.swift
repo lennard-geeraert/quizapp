@@ -42,7 +42,7 @@ struct homeView: View
                     .offset(y: -200)
                 }
             }
-            .navigationBarTitle("Quizapp",displayMode: .inline)
+            .navigationBarTitle("", displayMode: .inline)
         }
     }
 }

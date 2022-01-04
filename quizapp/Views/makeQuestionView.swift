@@ -56,14 +56,27 @@ struct makeQuestionView: View
                             })
                         }
                     }
+                    Button(action: {clearText()}, label: {
+                        Image(systemName: "trash")
+                    })
                     NavigationLink(destination: homeView(viewModel: viewModel), label: {
                             Button(action: {makeQuestion()}, label: {
-                                Text("Save")
+                                Image(systemName: "checkmark")
                             }).disabled(!allesCorrect())
                     })
                  }
              }
         }
+    }
+    
+    func clearText()
+    {
+        category = ""
+        question = ""
+        correctAnswer = ""
+        incorrectAnswer1 = ""
+        incorrectAnswer2 = ""
+        incorrectAnswer3 = ""
     }
     
     func isStringCorrect(string: String) -> Bool
