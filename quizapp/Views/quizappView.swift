@@ -21,7 +21,9 @@ struct quizappView: View
             // als dit werkt is de data van de API ok
 //            Text(viewModel.questions[1].question)
             
-            if(self.i < viewModel.questionAnswerPairs.count)
+            let questions = viewModel.questionAnswerPairs
+            
+            if(self.i < questions.count)
             {
                 HStack
                 {
@@ -40,14 +42,13 @@ struct quizappView: View
                     RoundedRectangle(cornerRadius: 20)
                         .fill()
                         .foregroundColor(.white)
-                    Text(viewModel.questionAnswerPairs[self.i].question)
+                    Text(questions[self.i].question)
                         .foregroundColor(.black)
                         .padding()
                         .font(.largeTitle)
                 }
                 
-                let temporaryAnswers = viewModel.questionAnswerPairs[self.i].incorrect_answers
-//                temporaryAnswers = temporaryAnswers.append(viewModel.questionAnswerPairs[self.i].correct_answer)
+                let temporaryAnswers = giveArray(array: questions[self.i].incorrect_answers, string: questions[self.i].correct_answer)
                 
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))])
                 {
@@ -55,7 +56,7 @@ struct quizappView: View
                         CardView(answer: answer)
                             .aspectRatio(5/1, contentMode: .fit)
                             .onTapGesture {
-                                viewModel.choose(viewModel.questionAnswerPairs[self.i].id, answer: answer)
+                                viewModel.choose(questions[self.i].id!, answer: answer)
                                 self.i = self.i + 1
                             }
                     }
@@ -84,6 +85,12 @@ struct quizappView: View
             Image(systemName: "arrowshape.turn.up.forward")
         }
     }
+}
+
+func giveArray(array: Array<String>, string: String) -> Array<String> {
+    var test = array
+    test.append(string)
+    return test
 }
 
 struct CardView: View

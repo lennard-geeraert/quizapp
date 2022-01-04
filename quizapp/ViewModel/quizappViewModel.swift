@@ -12,8 +12,13 @@ class quizappViewModel: ObservableObject
     @Published private var model = quizappModel() //hier later ook nog theme meegeven
     @Published var questions: [MyResult] = []
     
-    var questionAnswerPairs: Array<quizappModel.QuestionAnswerPair> {
-        return model.questionAnswerPairs
+//    var questionAnswerPairs: Array<QuestionAnswerPair> {
+//        return model.questionAnswerPairs
+//    }
+    
+    var questionAnswerPairs: Array<MyResult> {
+        fetchData()
+        return questions
     }
     
     var nrOfRightAnswers: Int {
@@ -25,7 +30,7 @@ class quizappViewModel: ObservableObject
     }
     
     init() {
-        fetchData()
+//        fetchData()
     }
     
     // loading data from api
@@ -69,49 +74,6 @@ class quizappViewModel: ObservableObject
         }).resume()
     }
     
-    struct Response: Codable
-    {
-        var results: Array<MyResult>
-        var response_code: Int
-    }
-    
-    struct MyResult: Codable, Identifiable
-    {
-        // Wanner dit erbij komt lukt het inlezen van de data niet meer
-        var id: Int? = Int.random(in: 0..<9999)
-        
-        var category: String
-        var type: String
-        var difficulty: String
-        var question: String
-        var correct_answer: String
-        var incorrect_answers: Array<String>
-        
-        init(category: String, type: String, difficulty: String, question: String, correct_answer: String, incorrect_answers: Array<String>) {
-            self.id = Int.random(in: 0..<9999)
-            self.category = category
-            self.type = type
-            self.difficulty = difficulty
-            self.question = question
-            self.correct_answer = correct_answer
-            self.incorrect_answers = incorrect_answers
-        }
-    }
-    
-    // transforming loaded data
-    
-//    func transform(data: [MyResult]) -> Void {
-////        model.transform(data)
-//        ForEach(data) { dataObject in
-//            var answers = [model]
-//            ForEach(dataObject.incorrect_answers) { answer in
-//
-//            }
-//            model.questionAnswerPairs.a
-//        }
-//    }
-    
-    
     // MARK: - Intent(s)
     
     func choose(_ id: Int, answer: String) {
@@ -119,5 +81,13 @@ class quizappViewModel: ObservableObject
         // objectWillChange.send()
         model.choose(id, answer: answer)
         print(questions)
+        print("----------------------------------------------------------------")
+        print(questionAnswerPairs)
+        print("----------------------------------------------------------------")
+    }
+    
+    func makeQuestion(theme: String) {
+        model.makeQuestion(theme: theme)
+        print("!!!!!!!! \(theme) !!!!!!!!!!!!!!!!")
     }
 }

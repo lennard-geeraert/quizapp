@@ -6,27 +6,13 @@
 //
 
 import Foundation
-//import DeveloperToolsSupport
 import SwiftUI
 
 struct quizappModel
 {
-    private(set) var questionAnswerPairs: Array<QuestionAnswerPair>
+    var questionAnswerPairs: Array<QuestionAnswerPair>
     private(set) var nrOfRightAnswers: Int
     private(set) var nrOfWrongAnswers: Int
-
-    mutating func choose(_ id: Int, answer: String)
-    {
-        if let correctQAPairIndex = questionAnswerPairs.firstIndex(where: { $0.id == id })
-        {
-            if (questionAnswerPairs[correctQAPairIndex].correct_answer == answer){
-                nrOfRightAnswers += 1
-            }
-            else {
-                nrOfWrongAnswers += 1
-            }
-        }
-    }
     
     init()
     {
@@ -46,21 +32,60 @@ struct quizappModel
        questionAnswerPairs.append(questionAnswerPair3)
     }
     
-    struct QuestionAnswerPair
+    mutating func choose(_ id: Int, answer: String)
     {
-        var category: String
-        var type: String
-        var difficulty: String
-        var question: String
-        var correct_answer: String
-        var incorrect_answers: Array<String>
-        let id: Int
+        if let correctQAPairIndex = questionAnswerPairs.firstIndex(where: { $0.id == id })
+        {
+            if (questionAnswerPairs[correctQAPairIndex].correct_answer == answer){
+                nrOfRightAnswers += 1
+            }
+            else {
+                nrOfWrongAnswers += 1
+            }
+        }
     }
     
-//    func transform(data: [MyResult]) -> Void {
-//        data.forEach { dataObject in
-//            <#code#>
-//        }
-//    }
+    mutating func makeQuestion(theme: String) {
+        questionAnswerPairs.append(QuestionAnswerPair(category: theme, type: "test", difficulty: "test2", question: "t3", correct_answer: "t4", incorrect_answers: ["t5", "t6", "t7"], id: Int.random(in: 0..<999)))
+    }
+}
+
+struct QuestionAnswerPair
+{
+    var category: String
+    var type: String
+    var difficulty: String
+    var question: String
+    var correct_answer: String
+    var incorrect_answers: Array<String>
+    let id: Int
+}
+
+struct Response: Codable
+{
+    var results: Array<MyResult>
+    var response_code: Int
+}
+
+struct MyResult: Codable, Identifiable
+{
+    var id: Int? = Int.random(in: 0..<9999)
+    
+    var category: String
+    var type: String
+    var difficulty: String
+    var question: String
+    var correct_answer: String
+    var incorrect_answers: Array<String>
+    
+    init(category: String, type: String, difficulty: String, question: String, correct_answer: String, incorrect_answers: Array<String>) {
+        self.id = Int.random(in: 0..<9999)
+        self.category = category
+        self.type = type
+        self.difficulty = difficulty
+        self.question = question
+        self.correct_answer = correct_answer
+        self.incorrect_answers = incorrect_answers
+    }
 }
          
