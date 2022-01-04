@@ -26,6 +26,10 @@ struct homeView: View
                 {
                     Text("START QUIZ")
                 }
+                NavigationLink(destination: makeQuestionView(viewModel: quizappViewModel()))
+                {
+                    Text("EDIT QUIZ")
+                }
 //                    HStack{
 //                        Text("last score : \(self.score) / \(myQuiz1.count)")          .onAppear(){
 //                                self.score = LoadScore(quiz:"myQuiz1")

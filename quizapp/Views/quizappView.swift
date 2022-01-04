@@ -96,18 +96,9 @@ struct CardView: View
         let shape = RoundedRectangle(cornerRadius: 20)
         ZStack
         {
-            let color = answer.backgroundColor
-            
-            if(color == "green") {
-                shape
-                    .fill()
-                    .foregroundColor(.green)
-            }
-            else {
-                shape
-                    .fill()
-                    .foregroundColor(.white)
-            }
+            shape
+                .fill()
+                .foregroundColor(.white)
             shape
                 .stroke(lineWidth: 3)
                 .foregroundColor(.gray)

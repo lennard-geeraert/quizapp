@@ -14,6 +14,7 @@
 		43196FF327838A2600300D83 /* homeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43196FF227838A2600300D83 /* homeView.swift */; };
 		43281B3D2782059F0097EF34 /* quizappModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43281B3C2782059F0097EF34 /* quizappModel.swift */; };
 		43281B3F2782111C0097EF34 /* quizappViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43281B3E2782111C0097EF34 /* quizappViewModel.swift */; };
+		43406F2027843C1B0050C7E1 /* makeQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43406F1F27843C1B0050C7E1 /* makeQuestionView.swift */; };
 		43FD7B2E2783B1E400169C09 /* questionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FD7B2D2783B1E400169C09 /* questionView.swift */; };
 		43FD7B302783BC8F00169C09 /* finalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FD7B2F2783BC8F00169C09 /* finalView.swift */; };
 /* End PBXBuildFile section */
@@ -27,6 +28,7 @@
 		43196FF227838A2600300D83 /* homeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeView.swift; sourceTree = "<group>"; };
 		43281B3C2782059F0097EF34 /* quizappModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = quizappModel.swift; sourceTree = "<group>"; };
 		43281B3E2782111C0097EF34 /* quizappViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = quizappViewModel.swift; sourceTree = "<group>"; };
+		43406F1F27843C1B0050C7E1 /* makeQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = makeQuestionView.swift; sourceTree = "<group>"; };
 		43FD7B2D2783B1E400169C09 /* questionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = questionView.swift; sourceTree = "<group>"; };
 		43FD7B2F2783BC8F00169C09 /* finalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = finalView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -86,6 +88,7 @@
 				43196FF227838A2600300D83 /* homeView.swift */,
 				43FD7B2D2783B1E400169C09 /* questionView.swift */,
 				43FD7B2F2783BC8F00169C09 /* finalView.swift */,
+				43406F1F27843C1B0050C7E1 /* makeQuestionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -178,6 +181,7 @@
 			files = (
 				431159EA2776119F00E7CDFE /* quizappView.swift in Sources */,
 				431159E82776119F00E7CDFE /* quizappApp.swift in Sources */,
+				43406F2027843C1B0050C7E1 /* makeQuestionView.swift in Sources */,
 				43281B3D2782059F0097EF34 /* quizappModel.swift in Sources */,
 				43196FF327838A2600300D83 /* homeView.swift in Sources */,
 				43FD7B2E2783B1E400169C09 /* questionView.swift in Sources */,
