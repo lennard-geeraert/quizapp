@@ -14,60 +14,46 @@ struct quizappModel
     private(set) var questionAnswerPairs: Array<QuestionAnswerPair>
     private(set) var nrOfRightAnswers: Int
     private(set) var nrOfWrongAnswers: Int
-//    private(set) var dataResponse: Response
-//    private(set) var dataMyResults: Array<MyResult>
 
-    mutating func choose(_ answer: Answer, index: Int){
-        if let correctAnswerIndex = questionAnswerPairs[index].answers.firstIndex(where: { $0.isCorrect == true }) {
-            if let chosenAnswerIndex = questionAnswerPairs[index].answers.firstIndex(where: { $0.id == answer.id}) {
-                if(questionAnswerPairs[index].answers[correctAnswerIndex].content == questionAnswerPairs[index].answers[chosenAnswerIndex].content) {
-                    nrOfRightAnswers += 1
-                }
-                else {
-                    nrOfWrongAnswers += 1
-                }
+    mutating func choose(_ id: Int, answer: String)
+    {
+        if let correctQAPairIndex = questionAnswerPairs.firstIndex(where: { $0.id == id })
+        {
+            if (questionAnswerPairs[correctQAPairIndex].correct_answer == answer){
+                nrOfRightAnswers += 1
+            }
+            else {
+                nrOfWrongAnswers += 1
             }
         }
     }
     
-    init(numberOfQuestionAnswerPairs: Int) {
+    init()
+    {
         questionAnswerPairs = []
         nrOfRightAnswers = 0
         nrOfWrongAnswers = 0
+        let randomNr = 2
         
 //        verlopig hard gecodeerd
-       let testAnswers = [Answer(isCorrect: false, content: "1956", id: numberOfQuestionAnswerPairs * 2), Answer(isCorrect: true, content: "2001", id: numberOfQuestionAnswerPairs * 2 + 1), Answer(isCorrect: false, content: "1999", id: numberOfQuestionAnswerPairs * 2 + 2), Answer(isCorrect: false, content: "1901", id: numberOfQuestionAnswerPairs * 2 + 3)]
-       let question = Question(content: "In welk jaar is Lisa geboren?", id: numberOfQuestionAnswerPairs * 9 + 1)
-       let questionAnswerPair = QuestionAnswerPair(theme: "Lisa", answers: testAnswers, question: question)
+        let questionAnswerPair = QuestionAnswerPair(category: "Film", type: "multiple", difficulty: "easy", question: "Who is 007?", correct_answer: "James", incorrect_answers: ["Tom", "Koen", "Bert"], id: randomNr * 123)
        questionAnswerPairs.append(questionAnswerPair)
         
-        let testAnswers2 = [Answer(isCorrect: true, content: "komkommer", id: numberOfQuestionAnswerPairs * 123), Answer(isCorrect: false, content: "wortel", id: numberOfQuestionAnswerPairs * 123 + 1), Answer(isCorrect: false, content: "tomaat", id: numberOfQuestionAnswerPairs * 123 + 2), Answer(isCorrect: false, content: "kool", id: numberOfQuestionAnswerPairs * 123 + 3)]
-        let question2 = Question(content: "Wat is een groene groente?", id: numberOfQuestionAnswerPairs * 11 + 2)
-        let questionAnswerPair2 = QuestionAnswerPair(theme: "groenten", answers: testAnswers2, question: question2)
-        questionAnswerPairs.append(questionAnswerPair2)
+        let questionAnswerPair2 = QuestionAnswerPair(category: "Film", type: "multiple", difficulty: "easy", question: "Say hello to my little friend", correct_answer: "SacreFace", incorrect_answers: ["James Bond", "John Wick", "Matrix"], id: randomNr * 123 + 1)
+       questionAnswerPairs.append(questionAnswerPair2)
         
-        let testAnswers3 = [Answer(isCorrect: true, content: "James", id: numberOfQuestionAnswerPairs * 125), Answer(isCorrect: false, content: "Tom", id: numberOfQuestionAnswerPairs * 125 + 1), Answer(isCorrect: false, content: "Koen", id: numberOfQuestionAnswerPairs * 125 + 2), Answer(isCorrect: false, content: "Kurt", id: numberOfQuestionAnswerPairs * 125 + 3)]
-        let question3 = Question(content: "Wie is 007?", id: numberOfQuestionAnswerPairs * 1111 + 2)
-        let questionAnswerPair3 = QuestionAnswerPair(theme: "Film", answers: testAnswers3, question: question3)
-        questionAnswerPairs.append(questionAnswerPair3)
+        let questionAnswerPair3 = QuestionAnswerPair(category: "Film", type: "multiple", difficulty: "easy", question: "Gozilla", correct_answer: "Texas", incorrect_answers: ["San Francisco", "New York", "California"], id: randomNr * 123 + 2)
+       questionAnswerPairs.append(questionAnswerPair3)
     }
     
-    struct QuestionAnswerPair {
-        let theme: String
-        var answers: Array<Answer>
-        let question: Question
-        
-        func getAnswers() -> Array<Answer> {
-            return answers
-        }
-    }
-    struct Answer: Identifiable {
-        let isCorrect: Bool
-        let content: String
-        let id: Int
-    }
-    struct Question: Identifiable {
-        let content: String
+    struct QuestionAnswerPair
+    {
+        var category: String
+        var type: String
+        var difficulty: String
+        var question: String
+        var correct_answer: String
+        var incorrect_answers: Array<String>
         let id: Int
     }
     

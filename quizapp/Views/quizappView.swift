@@ -40,21 +40,22 @@ struct quizappView: View
                     RoundedRectangle(cornerRadius: 20)
                         .fill()
                         .foregroundColor(.white)
-                    Text(viewModel.questionAnswerPairs[self.i].question.content)
+                    Text(viewModel.questionAnswerPairs[self.i].question)
                         .foregroundColor(.black)
                         .padding()
                         .font(.largeTitle)
                 }
                 
-//                var temporaryAnswers: Array<String> = answer.incorrect_answers.append(answer.correct_answer)
+                let temporaryAnswers = viewModel.questionAnswerPairs[self.i].incorrect_answers
+//                temporaryAnswers = temporaryAnswers.append(viewModel.questionAnswerPairs[self.i].correct_answer)
                 
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))])
                 {
-                    ForEach(viewModel.questionAnswerPairs[self.i].answers){ answer in
+                    ForEach(temporaryAnswers, id: \.self){ answer in
                         CardView(answer: answer)
                             .aspectRatio(5/1, contentMode: .fit)
                             .onTapGesture {
-                                viewModel.choose(answer, index: self.i)
+                                viewModel.choose(viewModel.questionAnswerPairs[self.i].id, answer: answer)
                                 self.i = self.i + 1
                             }
                     }
@@ -87,7 +88,7 @@ struct quizappView: View
 
 struct CardView: View
 {
-    let answer: quizappViewModel.Answer
+    let answer: String
     
     var body: some View
     {
@@ -102,7 +103,7 @@ struct CardView: View
             shape
                 .stroke(lineWidth: 3)
                 .foregroundColor(.gray)
-            Text(answer.content)
+            Text(answer)
                 .foregroundColor(.black)
                 .padding()
                 .font(.largeTitle)

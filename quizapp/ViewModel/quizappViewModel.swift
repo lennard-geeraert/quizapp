@@ -9,18 +9,12 @@ import SwiftUI
 
 class quizappViewModel: ObservableObject
 {
-    typealias Answer = quizappModel.Answer
-    
-    @Published private var model = quizappModel(numberOfQuestionAnswerPairs: 2) //hier later ook nog theme meegeven
+    @Published private var model = quizappModel() //hier later ook nog theme meegeven
     @Published var questions: [MyResult] = []
     
     var questionAnswerPairs: Array<quizappModel.QuestionAnswerPair> {
         return model.questionAnswerPairs
     }
-    
-//    var questionAnswerPairs: [MyResult] {
-//        return questions
-//    }
     
     var nrOfRightAnswers: Int {
         return model.nrOfRightAnswers
@@ -120,10 +114,10 @@ class quizappViewModel: ObservableObject
     
     // MARK: - Intent(s)
     
-    func choose(_ answer: Answer, index: Int) {
+    func choose(_ id: Int, answer: String) {
         // this will happen automatically when specifying @Published and mutating
         // objectWillChange.send()
-        model.choose(answer, index: index)
+        model.choose(id, answer: answer)
         print(questions)
     }
 }
