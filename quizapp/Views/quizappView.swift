@@ -21,9 +21,10 @@ struct quizappView: View
     
     var body: some View
     {
+        var questions = viewModel.questions
         VStack
         {
-            let questions = viewModel.questions
+            
             
             if(!questions.isEmpty)
             {
@@ -122,6 +123,7 @@ struct quizappView: View
                 }
             }
         }
+        .onAppear {questions = viewModel.questions}
         .padding()
         .navigationTitle(" ")
         .toolbar
@@ -131,7 +133,7 @@ struct quizappView: View
                 Button {
                 }   label:
                 {
-                    NavigationLink(destination: quizappView(viewModel: quizappViewModel()), label: {
+                    NavigationLink(destination: quizappView(viewModel: viewModel), label: {
                         Image(systemName: "arrow.counterclockwise")
                     })
                 }

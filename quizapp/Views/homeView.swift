@@ -9,7 +9,7 @@ import SwiftUI
 
 struct homeView: View
 {
-    @ObservedObject var viewModel: quizappViewModel
+    @StateObject var viewModel: quizappViewModel
         
     var body: some View
     {
@@ -30,12 +30,12 @@ struct homeView: View
                         .padding()
                         .offset(y: -200)
                     
-                    NavigationLink(destination: quizappView(viewModel: quizappViewModel()), label: {
+                    NavigationLink(destination: quizappView(viewModel: viewModel), label: {
                         
                         labelView(text: "START QUIZ", image: "gamecontroller")
                     })
                     .offset(y: -200)
-                    NavigationLink(destination: makeQuestionView(viewModel: quizappViewModel()), label: {
+                    NavigationLink(destination: makeQuestionView(viewModel: viewModel), label: {
                         
                         labelView(text: "EDIT QUIZ", image: "pencil")
                     })

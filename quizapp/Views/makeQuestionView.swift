@@ -9,7 +9,7 @@ import SwiftUI
 
 struct makeQuestionView: View
 {
-    @ObservedObject var viewModel: quizappViewModel
+    @StateObject var viewModel: quizappViewModel
     
     @Environment(\.presentationMode) var presentationMode
     

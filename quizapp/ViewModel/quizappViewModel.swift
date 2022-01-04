@@ -45,6 +45,9 @@ class quizappViewModel: ObservableObject
     
     func getJSON(completion: @escaping ([Question]) -> Void)
     {
+        // food and drinks
+//        let url = "https://api.trivia.willfry.co.uk/questions?categories=food_and_drink&limit=10"
+        // random questions
         let url = "https://api.trivia.willfry.co.uk/questions?limit=10"
         URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: { data, response, error in
             
