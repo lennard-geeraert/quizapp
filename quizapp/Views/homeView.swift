@@ -44,6 +44,16 @@ struct homeView: View
             }
             .navigationBarTitle("", displayMode: .inline)
         }
+        // show wait sign if data is not yet loaded
+        else {
+            ZStack {
+                Color(.systemBackground)
+                
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .gray))
+                    .scaleEffect(3)
+            }
+        }
     }
 }
 

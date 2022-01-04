@@ -12,23 +12,6 @@ class quizappViewModel: ObservableObject
     @Published private var model = quizappModel()
     @Published var questions: [Question] = []
     
-//    var questionAnswerPairs: Array<QuestionAnswerPair> {
-//        return model.questionAnswerPairs
-//    }
-    
-//    var questionAnswerPairs: Array<Question> {
-////        fetchData()
-//        return questions
-//    }
-    
-//    var nrOfRightAnswers: Int {
-//        return model.nrOfRightAnswers
-//    }
-//
-//    var nrOfWrongAnswers: Int {
-//        return model.nrOfWrongAnswers
-//    }
-    
     init() {
         fetchData()
     }
@@ -69,7 +52,6 @@ class quizappViewModel: ObservableObject
                 return
             }
             print(json[0].question)
-//            print("\(json.response_code)")
             
             completion(json)
         }).resume()
@@ -77,15 +59,8 @@ class quizappViewModel: ObservableObject
     
     // MARK: - Intent(s)
     
-//    func choose(_ id: Int, answer: String) {
-//        // this will happen automatically when specifying @Published and mutating
-//        // objectWillChange.send()
-//        model.choose(id, answer: answer)
-//    }
-    
     func makeQuestion(theme: String, quest: String, correctAns: String, incorrectAns: Array<String>) {
-//        model.makeQuestion(theme: theme)
-        questions.append(Question(id: Int.random(in: 0..<999), category: theme, type: "Multiple choice", question: quest, correctAnswer: correctAns, incorrectAnswers: incorrectAns))
+        questions.append(Question(id: Int.random(in: 0..<9999), category: theme, type: "Multiple choice", question: quest, correctAnswer: correctAns, incorrectAnswers: incorrectAns))
         print(questions)
         print("----------------------------------------------------------------")
     }
