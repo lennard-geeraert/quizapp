@@ -14,61 +14,82 @@ struct quizappView: View
     // number of questions
     @State var i: Int = 0
     
+    @State var isLoading = false
+    
     var body: some View
     {
         VStack
         {
-            // als dit werkt is de data van de API ok
-//            Text(viewModel.questions[1].question)
-            
-            let questions = viewModel.questionAnswerPairs
-            
-            if(self.i < questions.count)
+            if(!isLoading)
             {
-                HStack
-                {
-                    back
-                    Spacer()
-                    Text("✅ \(viewModel.nrOfRightAnswers) ❌ \(viewModel.nrOfWrongAnswers)")
-                        .foregroundColor(.black)
-                    Spacer()
-                    forward
-                }
-                .font(.largeTitle)
-                .padding()
+                let questions = viewModel.questionAnswerPairs
                 
-                ZStack
+                if(self.i < questions.count)
                 {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill()
-                        .foregroundColor(.white)
-                    Text(questions[self.i].question)
-                        .foregroundColor(.black)
-                        .padding()
-                        .font(.largeTitle)
-                }
-                
-                let temporaryAnswers = giveArray(array: questions[self.i].incorrect_answers, string: questions[self.i].correct_answer)
-                
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))])
-                {
-                    ForEach(temporaryAnswers, id: \.self){ answer in
-                        CardView(answer: answer)
-                            .aspectRatio(5/1, contentMode: .fit)
-                            .onTapGesture {
-                                viewModel.choose(questions[self.i].id!, answer: answer)
-                                self.i = self.i + 1
-                            }
+                    HStack
+                    {
+                        back
+                        Spacer()
+                        Text("✅ \(viewModel.nrOfRightAnswers) ❌ \(viewModel.nrOfWrongAnswers)")
+                            .foregroundColor(.black)
+                        Spacer()
+                        forward
                     }
+                    .font(.largeTitle)
+                    .padding()
+                    
+                    ZStack
+                    {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill()
+                            .foregroundColor(.white)
+                        Text(questions[self.i].question)
+                            .foregroundColor(.black)
+                            .padding()
+                            .font(.largeTitle)
+                    }
+                    
+                    let temporaryAnswers = giveArray(array: questions[self.i].incorrect_answers, string: questions[self.i].correct_answer)
+                    
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))])
+                    {
+                        ForEach(temporaryAnswers, id: \.self){ answer in
+                            CardView(answer: answer)
+                                .aspectRatio(5/1, contentMode: .fit)
+                                .onTapGesture {
+                                    viewModel.choose(questions[self.i].id!, answer: answer)
+                                    self.i = self.i + 1
+                                }
+                        }
+                    }
+                    .padding(.bottom)
                 }
-                .padding(.bottom)
+                else {
+                    finalView(nrCorrect: viewModel.nrOfRightAnswers, nrInCorrect: viewModel.nrOfWrongAnswers)
+                }
             }
             else {
-                finalView(nrCorrect: viewModel.nrOfRightAnswers, nrInCorrect: viewModel.nrOfWrongAnswers)
+                ZStack {
+                    Color(.systemBackground)
+                    
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .gray))
+                        .scaleEffect(3)
+                }
             }
         }
+        .onAppear{ loadData() }
         .padding()
     }
+    
+    func loadData() {
+        isLoading = true
+        DispatchQueue.main.async {
+            viewModel.fetchData()
+            isLoading = false
+        }
+    }
+    
     var back: some View
     {
         Button{

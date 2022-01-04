@@ -17,7 +17,7 @@ class quizappViewModel: ObservableObject
 //    }
     
     var questionAnswerPairs: Array<MyResult> {
-        fetchData()
+//        fetchData()
         return questions
     }
     
@@ -29,9 +29,9 @@ class quizappViewModel: ObservableObject
         return model.nrOfWrongAnswers
     }
     
-    init() {
+//    init() {
 //        fetchData()
-    }
+//    }
     
     // loading data from api
     
@@ -41,8 +41,6 @@ class quizappViewModel: ObservableObject
                 self.questions = q?.results ?? []
             }
         }
-        
-//        print(self.questions[0].question)
     }
     
     func getJSON(completion: @escaping (Response) -> Void)
