@@ -11,31 +11,36 @@ struct quizappView: View
 {
     // body will change when viewmodel notifice us that model changed
     @ObservedObject var viewModel: quizappViewModel
+    // number of questions
+    @State var i: Int = 0
     
     var body: some View
     {
         VStack
         {
-            HStack
-            {
-                back
-                Spacer()
-                Text("✅ \(viewModel.nrOfRightAnswers) ❌ \(viewModel.nrOfWrongAnswers)")
-                    .foregroundColor(.black)
-                Spacer()
-                forward
-            }
-            .font(.largeTitle)
-            .padding()
+            // als dit werkt is de data van de API ok
+//            Text(viewModel.questions[1].question)
             
-            ForEach(viewModel.questions, id: \.id){ question in
+            if(self.i < viewModel.questionAnswerPairs.count)
+            {
+                HStack
+                {
+                    back
+                    Spacer()
+                    Text("✅ \(viewModel.nrOfRightAnswers) ❌ \(viewModel.nrOfWrongAnswers)")
+                        .foregroundColor(.black)
+                    Spacer()
+                    forward
+                }
+                .font(.largeTitle)
+                .padding()
                 
                 ZStack
                 {
                     RoundedRectangle(cornerRadius: 20)
                         .fill()
                         .foregroundColor(.white)
-                    Text(question.question)
+                    Text(viewModel.questionAnswerPairs[self.i].question.content)
                         .foregroundColor(.black)
                         .padding()
                         .font(.largeTitle)
@@ -45,18 +50,20 @@ struct quizappView: View
                 
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))])
                 {
-                    ForEach(question.incorrect_answers, id: \.self){ answer in
+                    ForEach(viewModel.questionAnswerPairs[self.i].answers){ answer in
                         CardView(answer: answer)
                             .aspectRatio(5/1, contentMode: .fit)
                             .onTapGesture {
-//                                viewModel.choose(answer)
+                                viewModel.choose(answer, index: self.i)
+                                self.i = self.i + 1
                             }
                     }
                 }
                 .padding(.bottom)
             }
-            
-            
+            else {
+                finalView(nrCorrect: viewModel.nrOfRightAnswers, nrInCorrect: viewModel.nrOfWrongAnswers)
+            }
         }
         .padding()
     }
@@ -80,7 +87,7 @@ struct quizappView: View
 
 struct CardView: View
 {
-    let answer: String
+    let answer: quizappViewModel.Answer
     
     var body: some View
     {
@@ -89,22 +96,22 @@ struct CardView: View
         let shape = RoundedRectangle(cornerRadius: 20)
         ZStack
         {
-//            let color = answer.backgroundColor
+            let color = answer.backgroundColor
             
-//            if(color == "green") {
-//                shape
-//                    .fill()
-//                    .foregroundColor(.green)
-//            }
-//            else {
+            if(color == "green") {
+                shape
+                    .fill()
+                    .foregroundColor(.green)
+            }
+            else {
                 shape
                     .fill()
                     .foregroundColor(.white)
-//            }
+            }
             shape
                 .stroke(lineWidth: 3)
                 .foregroundColor(.gray)
-            Text(answer)
+            Text(answer.content)
                 .foregroundColor(.black)
                 .padding()
                 .font(.largeTitle)

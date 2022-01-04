@@ -9,9 +9,33 @@ import SwiftUI
 
 struct homeView: View
 {
+//        @State var score = 0
+        
     var body: some View
     {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView
+        {
+            VStack(spacing: 20)
+            {
+                Text("Welcome to the quizapp game")
+                
+                // hier later thema en difficulty kiezen
+                // naargelang difficulty en thema wordt er een API van het internet ingeladen
+                
+                NavigationLink(destination: quizappView(viewModel: quizappViewModel()))
+                {
+                    Text("START QUIZ")
+                }
+//                    HStack{
+//                        Text("last score : \(self.score) / \(myQuiz1.count)")          .onAppear(){
+//                                self.score = LoadScore(quiz:"myQuiz1")
+//
+//                        }
+//
+//                    }
+            }
+        }
+        .navigationBarTitle("Quizapp",displayMode: .inline)
     }
 }
 

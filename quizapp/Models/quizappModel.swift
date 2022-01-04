@@ -9,18 +9,19 @@ import Foundation
 //import DeveloperToolsSupport
 import SwiftUI
 
-struct quizappModel {
+struct quizappModel
+{
     private(set) var questionAnswerPairs: Array<QuestionAnswerPair>
     private(set) var nrOfRightAnswers: Int
     private(set) var nrOfWrongAnswers: Int
 //    private(set) var dataResponse: Response
 //    private(set) var dataMyResults: Array<MyResult>
 
-    mutating func choose(_ answer: Answer){
-        if let correctAnswerIndex = questionAnswerPairs[0].answers.firstIndex(where: { $0.isCorrect == true }) {
-            questionAnswerPairs[0].answers[correctAnswerIndex].backgroundColor = "green"
-            if let chosenAnswerIndex = questionAnswerPairs[0].answers.firstIndex(where: { $0.id == answer.id}) {
-                if(questionAnswerPairs[0].answers[correctAnswerIndex].content == questionAnswerPairs[0].answers[chosenAnswerIndex].content) {
+    mutating func choose(_ answer: Answer, index: Int){
+        if let correctAnswerIndex = questionAnswerPairs[index].answers.firstIndex(where: { $0.isCorrect == true }) {
+            questionAnswerPairs[index].answers[correctAnswerIndex].backgroundColor = "green"
+            if let chosenAnswerIndex = questionAnswerPairs[index].answers.firstIndex(where: { $0.id == answer.id}) {
+                if(questionAnswerPairs[index].answers[correctAnswerIndex].content == questionAnswerPairs[index].answers[chosenAnswerIndex].content) {
                     nrOfRightAnswers += 1
                 }
                 else {
@@ -36,15 +37,20 @@ struct quizappModel {
         nrOfWrongAnswers = 0
         
 //        verlopig hard gecodeerd
-//        later een betere id maken, die zeker niet dezelfde kan zijn
        let testAnswers = [Answer(isCorrect: false, content: "1956", backgroundColor: "white", id: numberOfQuestionAnswerPairs * 2), Answer(isCorrect: true, content: "2001", backgroundColor: "white", id: numberOfQuestionAnswerPairs * 2 + 1), Answer(isCorrect: false, content: "1999", backgroundColor: "white", id: numberOfQuestionAnswerPairs * 2 + 2), Answer(isCorrect: false, content: "1901", backgroundColor: "white", id: numberOfQuestionAnswerPairs * 2 + 3)]
        let question = Question(content: "In welk jaar is Lisa geboren?", id: numberOfQuestionAnswerPairs * 9 + 1)
        let questionAnswerPair = QuestionAnswerPair(theme: "Lisa", answers: testAnswers, question: question)
        questionAnswerPairs.append(questionAnswerPair)
+        
         let testAnswers2 = [Answer(isCorrect: true, content: "komkommer", backgroundColor: "white", id: numberOfQuestionAnswerPairs * 123), Answer(isCorrect: false, content: "wortel", backgroundColor: "white", id: numberOfQuestionAnswerPairs * 123 + 1), Answer(isCorrect: false, content: "tomaat", backgroundColor: "white", id: numberOfQuestionAnswerPairs * 123 + 2), Answer(isCorrect: false, content: "kool", backgroundColor: "white", id: numberOfQuestionAnswerPairs * 123 + 3)]
         let question2 = Question(content: "Wat is een groene groente?", id: numberOfQuestionAnswerPairs * 11 + 2)
         let questionAnswerPair2 = QuestionAnswerPair(theme: "groenten", answers: testAnswers2, question: question2)
         questionAnswerPairs.append(questionAnswerPair2)
+        
+        let testAnswers3 = [Answer(isCorrect: true, content: "James", backgroundColor: "white", id: numberOfQuestionAnswerPairs * 125), Answer(isCorrect: false, content: "Tom", backgroundColor: "white", id: numberOfQuestionAnswerPairs * 125 + 1), Answer(isCorrect: false, content: "Koen", backgroundColor: "white", id: numberOfQuestionAnswerPairs * 125 + 2), Answer(isCorrect: false, content: "Kurt", backgroundColor: "white", id: numberOfQuestionAnswerPairs * 125 + 3)]
+        let question3 = Question(content: "Wie is 007?", id: numberOfQuestionAnswerPairs * 1111 + 2)
+        let questionAnswerPair3 = QuestionAnswerPair(theme: "Film", answers: testAnswers3, question: question3)
+        questionAnswerPairs.append(questionAnswerPair3)
     }
     
     struct QuestionAnswerPair {

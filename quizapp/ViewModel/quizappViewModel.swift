@@ -42,6 +42,8 @@ class quizappViewModel: ObservableObject
                 self.questions = q?.results ?? []
             }
         }
+        
+//        print(self.questions[0].question)
     }
     
     func getJSON(completion: @escaping (Response) -> Void)
@@ -82,7 +84,7 @@ class quizappViewModel: ObservableObject
     struct MyResult: Codable, Identifiable
     {
         // Wanner dit erbij komt lukt het inlezen van de data niet meer
-        var id: Int? = UUID().uuidString.hash
+        var id: Int? = Int.random(in: 0..<9999)
         
         var category: String
         var type: String
@@ -92,7 +94,7 @@ class quizappViewModel: ObservableObject
         var incorrect_answers: Array<String>
         
         init(category: String, type: String, difficulty: String, question: String, correct_answer: String, incorrect_answers: Array<String>) {
-            self.id = UUID().uuidString.hash
+            self.id = Int.random(in: 0..<9999)
             self.category = category
             self.type = type
             self.difficulty = difficulty
@@ -118,10 +120,10 @@ class quizappViewModel: ObservableObject
     
     // MARK: - Intent(s)
     
-    func choose(_ answer: Answer) {
+    func choose(_ answer: Answer, index: Int) {
         // this will happen automatically when specifying @Published and mutating
         // objectWillChange.send()
-        model.choose(answer)
+        model.choose(answer, index: index)
         print(questions)
     }
 }

@@ -15,6 +15,8 @@ struct quizappApp: App {
     var body: some Scene {
         WindowGroup {
             quizappView(viewModel: game)
+            // wanneer we home eerst zetten ziet quizappView er raar uit
+//            homeView()
         }
     }
 }
