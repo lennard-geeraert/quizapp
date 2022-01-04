@@ -10,36 +10,42 @@ import SwiftUI
 struct homeView: View
 {
 //        @State var score = 0
+    @ObservedObject var viewModel: quizappViewModel
         
     var body: some View
     {
-        NavigationView
+        let questions = viewModel.questions
+        
+        if(!questions.isEmpty)
         {
-            VStack(spacing: 20)
+            NavigationView
             {
-                Text("Welcome to the quizapp game")
-                
-                // hier later thema en difficulty kiezen
-                // naargelang difficulty en thema wordt er een API van het internet ingeladen
-                
-                NavigationLink(destination: quizappView(viewModel: quizappViewModel()))
+                VStack(spacing: 20)
                 {
-                    Text("START QUIZ")
+                    Text("Welcome to the quizapp game")
+                    
+                    // hier later thema en difficulty kiezen
+                    // naargelang difficulty en thema wordt er een API van het internet ingeladen
+                    
+                    NavigationLink(destination: quizappView(viewModel: quizappViewModel()))
+                    {
+                        Text("START QUIZ")
+                    }
+                    NavigationLink(destination: makeQuestionView(viewModel: quizappViewModel()))
+                    {
+                        Text("EDIT QUIZ")
+                    }
+    //                    HStack{
+    //                        Text("last score : \(self.score) / \(myQuiz1.count)")          .onAppear(){
+    //                                self.score = LoadScore(quiz:"myQuiz1")
+    //
+    //                        }
+    //
+    //                    }
                 }
-                NavigationLink(destination: makeQuestionView(viewModel: quizappViewModel()))
-                {
-                    Text("EDIT QUIZ")
-                }
-//                    HStack{
-//                        Text("last score : \(self.score) / \(myQuiz1.count)")          .onAppear(){
-//                                self.score = LoadScore(quiz:"myQuiz1")
-//
-//                        }
-//
-//                    }
             }
+            .navigationBarTitle("Quizapp",displayMode: .inline)
         }
-        .navigationBarTitle("Quizapp",displayMode: .inline)
     }
 }
 
@@ -63,8 +69,10 @@ struct homeView: View
 
 struct homeView_Previews: PreviewProvider
 {
+    
     static var previews: some View
     {
-        homeView()
+        let game = quizappViewModel()
+        homeView(viewModel: game)
     }
 }

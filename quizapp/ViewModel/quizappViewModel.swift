@@ -9,43 +9,43 @@ import SwiftUI
 
 class quizappViewModel: ObservableObject
 {
-    @Published private var model = quizappModel() //hier later ook nog theme meegeven
-    @Published var questions: [MyResult] = []
+    @Published private var model = quizappModel()
+    @Published var questions: [Question] = []
     
 //    var questionAnswerPairs: Array<QuestionAnswerPair> {
 //        return model.questionAnswerPairs
 //    }
     
-    var questionAnswerPairs: Array<MyResult> {
-//        fetchData()
-        return questions
-    }
-    
-    var nrOfRightAnswers: Int {
-        return model.nrOfRightAnswers
-    }
-    
-    var nrOfWrongAnswers: Int {
-        return model.nrOfWrongAnswers
-    }
-    
-//    init() {
-//        fetchData()
+//    var questionAnswerPairs: Array<Question> {
+////        fetchData()
+//        return questions
 //    }
+    
+//    var nrOfRightAnswers: Int {
+//        return model.nrOfRightAnswers
+//    }
+//
+//    var nrOfWrongAnswers: Int {
+//        return model.nrOfWrongAnswers
+//    }
+    
+    init() {
+        fetchData()
+    }
     
     // loading data from api
     
     func fetchData() {
-        getJSON { (q:Response?) in
+        getJSON { (q:[Question]?) in
             DispatchQueue.main.async {
-                self.questions = q?.results ?? []
+                self.questions = q ?? []
             }
         }
     }
     
-    func getJSON(completion: @escaping (Response) -> Void)
+    func getJSON(completion: @escaping ([Question]) -> Void)
     {
-        let url = "https://opentdb.com/api.php?amount=10&category=12&difficulty=easy&type=multiple"
+        let url = "https://api.trivia.willfry.co.uk/questions?limit=10"
         URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: { data, response, error in
             
             guard let data = data, error == nil else {
@@ -53,9 +53,9 @@ class quizappViewModel: ObservableObject
                 return
             }
             // have data
-            var result: Response?
+            var result: [Question]?
             do {
-                result = try JSONDecoder().decode(Response.self, from: data)
+                result = try JSONDecoder().decode([Question].self, from: data)
             }
             catch {
                 print("Failed to convert \(error.localizedDescription)")
@@ -65,8 +65,8 @@ class quizappViewModel: ObservableObject
                 print("Not ok")
                 return
             }
-            print(json.results[0].question)
-            print("\(json.response_code)")
+            print(json[0].question)
+//            print("\(json.response_code)")
             
             completion(json)
         }).resume()
@@ -74,18 +74,16 @@ class quizappViewModel: ObservableObject
     
     // MARK: - Intent(s)
     
-    func choose(_ id: Int, answer: String) {
-        // this will happen automatically when specifying @Published and mutating
-        // objectWillChange.send()
-        model.choose(id, answer: answer)
+//    func choose(_ id: Int, answer: String) {
+//        // this will happen automatically when specifying @Published and mutating
+//        // objectWillChange.send()
+//        model.choose(id, answer: answer)
+//    }
+    
+    func makeQuestion(theme: String, quest: String, correctAns: String, incorrectAns: Array<String>) {
+//        model.makeQuestion(theme: theme)
+        questions.append(Question(id: Int.random(in: 0..<999), category: theme, type: "Multiple choice", question: quest, correctAnswer: correctAns, incorrectAnswers: incorrectAns))
         print(questions)
         print("----------------------------------------------------------------")
-        print(questionAnswerPairs)
-        print("----------------------------------------------------------------")
-    }
-    
-    func makeQuestion(theme: String) {
-        model.makeQuestion(theme: theme)
-        print("!!!!!!!! \(theme) !!!!!!!!!!!!!!!!")
     }
 }

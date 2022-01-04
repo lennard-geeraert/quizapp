@@ -15,25 +15,27 @@ struct quizappView: View
     @State var i: Int = 0
     
     @State var isLoading = false
+    @State var nrOfCorrectAnswers = 0
+    @State var nrOfWrongAnswers = 0
     
     var body: some View
     {
         VStack
         {
-            if(!isLoading)
+            let questions = viewModel.questions
+            
+            if(!questions.isEmpty)
             {
-                let questions = viewModel.questionAnswerPairs
-                
                 if(self.i < questions.count)
                 {
                     HStack
                     {
-                        back
+//                        back
+//                        Spacer()
+                        Text("✅ \(nrOfCorrectAnswers)")
                         Spacer()
-                        Text("✅ \(viewModel.nrOfRightAnswers) ❌ \(viewModel.nrOfWrongAnswers)")
-                            .foregroundColor(.black)
-                        Spacer()
-                        forward
+                        Text("❌ \(nrOfWrongAnswers)")
+//                        forward
                     }
                     .font(.largeTitle)
                     .padding()
@@ -44,12 +46,16 @@ struct quizappView: View
                             .fill()
                             .foregroundColor(.white)
                         Text(questions[self.i].question)
+                            .font(.body)
+                            .fontWeight(.regular)
                             .foregroundColor(.black)
                             .padding()
-                            .font(.largeTitle)
+//                            .font(.largeTitle)
                     }
                     
-                    let temporaryAnswers = giveArray(array: questions[self.i].incorrect_answers, string: questions[self.i].correct_answer)
+                    let temporaryAnswers = giveArray(prefix: 3, incorrectAns: questions[self.i].incorrectAnswers, correctAns: questions[self.i].correctAnswer)
+                    
+                    let correctAnsw = questions[self.i].correctAnswer
                     
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))])
                     {
@@ -57,7 +63,13 @@ struct quizappView: View
                             CardView(answer: answer)
                                 .aspectRatio(5/1, contentMode: .fit)
                                 .onTapGesture {
-                                    viewModel.choose(questions[self.i].id!, answer: answer)
+//                                    viewModel.choose(questions[self.i].id, answer: answer)
+                                    if(answer == correctAnsw) {
+                                        nrOfCorrectAnswers = nrOfCorrectAnswers + 1
+                                    }
+                                    else {
+                                        nrOfWrongAnswers = nrOfWrongAnswers + 1
+                                    }
                                     self.i = self.i + 1
                                 }
                         }
@@ -65,7 +77,7 @@ struct quizappView: View
                     .padding(.bottom)
                 }
                 else {
-                    finalView(nrCorrect: viewModel.nrOfRightAnswers, nrInCorrect: viewModel.nrOfWrongAnswers)
+                    finalView(nrCorrect: nrOfCorrectAnswers, nrInCorrect: nrOfWrongAnswers)
                 }
             }
             else {
@@ -78,39 +90,50 @@ struct quizappView: View
                 }
             }
         }
-        .onAppear{ loadData() }
+//        .onAppear{ loadData() }
         .padding()
     }
     
-    func loadData() {
-        isLoading = true
-        DispatchQueue.main.async {
-            viewModel.fetchData()
-            isLoading = false
-        }
-    }
+//    func loadData() {
+//        isLoading = true
+//        DispatchQueue.main.async {
+//            viewModel.fetchData()
+//            isLoading = false
+//        }
+//    }
     
-    var back: some View
-    {
-        Button{
-            // ga een vraag terug
-        } label: {
-            Image(systemName: "arrowshape.turn.up.backward")
-        }
-    }
-    var forward: some View
-    {
-        Button{
-            // ga een vraag verder
-        } label: {
-            Image(systemName: "arrowshape.turn.up.forward")
-        }
-    }
+//    var back: some View
+//    {
+//        Button{
+//            // ga een vraag terug
+//        } label: {
+//            Image(systemName: "arrowshape.turn.up.backward")
+//        }
+//    }
+//    var forward: some View
+//    {
+//        Button{
+//            // ga een vraag verder
+//        } label: {
+//            Image(systemName: "arrowshape.turn.up.forward")
+//        }
+//    }
 }
 
-func giveArray(array: Array<String>, string: String) -> Array<String> {
-    var test = array
-    test.append(string)
+func giveArray(prefix: Int, incorrectAns: Array<String>, correctAns: String) -> Array<String> {
+    var test: Array<String> = []
+    if(incorrectAns.count >= 3) {
+        for n in 0...2 {
+            test.append(incorrectAns[n])
+        }
+    }
+    else {
+        for n in 0...1 {
+            test.append(incorrectAns[n])
+        }
+    }
+    test.append(correctAns)
+    test.shuffle()
     return test
 }
 
@@ -132,9 +155,12 @@ struct CardView: View
                 .stroke(lineWidth: 3)
                 .foregroundColor(.gray)
             Text(answer)
+                .font(.body)
+                .font(.body)
+                .fontWeight(.medium)
                 .foregroundColor(.black)
+                .multilineTextAlignment(.center)
                 .padding()
-                .font(.largeTitle)
         }
     }
 }
