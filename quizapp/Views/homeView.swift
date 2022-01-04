@@ -32,28 +32,33 @@ struct homeView: View
                     
                     NavigationLink(destination: quizappView(viewModel: quizappViewModel()), label: {
                         
-                        Label("START QUIZ", systemImage: "gamecontroller")
-                            .frame(width: 220, height: 40, alignment: .center)
-                            .background(.gray)
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                        
+                        labelView(text: "START QUIZ", image: "gamecontroller")
                     })
                     .offset(y: -200)
                     NavigationLink(destination: makeQuestionView(viewModel: quizappViewModel()), label: {
                         
-                        Label("EDIT QUIZ", systemImage: "pencil")
-                            .frame(width: 220, height: 40, alignment: .center)
-                            .background(.gray)
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                        
+                        labelView(text: "EDIT QUIZ", image: "pencil")
                     })
                     .offset(y: -200)
                 }
             }
             .navigationBarTitle("Quizapp",displayMode: .inline)
         }
+    }
+}
+
+struct labelView: View
+{
+    var text: String
+    var image: String
+    
+    var body: some View
+    {
+        Label(text, systemImage: image)
+            .frame(width: 220, height: 40, alignment: .center)
+            .background(.gray)
+            .foregroundColor(.white)
+            .cornerRadius(12)
     }
 }
 
@@ -77,7 +82,6 @@ struct homeView: View
 
 struct homeView_Previews: PreviewProvider
 {
-    
     static var previews: some View
     {
         let game = quizappViewModel()

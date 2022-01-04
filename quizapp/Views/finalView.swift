@@ -20,50 +20,20 @@ struct finalView: View
         {
             if(nrCorrect < totalNr/2)
             {
-                Text("Better luck next time...")
-                    .font(.largeTitle)
-                    .fontWeight(.thin)
-                    .foregroundColor(.green)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(nil)
-                    .padding()
+                textView(text: "Better luck next time...")
                 
                 Text("Final score: \(nrCorrect)/\(totalNr)")
                     .padding()
                 
-                ZStack
-                {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill()
-                        .foregroundColor(.white)
-                    RoundedRectangle(cornerRadius: 20)
-                        .strokeBorder(lineWidth: 2)
-                        .foregroundColor(.white)
-                    Text("🤯").font(Font.system(size: 90))
-                }
+                imageView(image: "🤯")
             }
             else {
-                Text("Great Job!")
-                    .font(.largeTitle)
-                    .fontWeight(.thin)
-                    .foregroundColor(.green)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(nil)
-                    .padding()
+                textView(text: "Great Job!")
                 
                 Text("Final score: \(nrCorrect)/\(totalNr)")
                     .padding()
-                
-                ZStack
-                {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill()
-                        .foregroundColor(.white)
-                    RoundedRectangle(cornerRadius: 20)
-                        .strokeBorder(lineWidth: 2)
-                        .foregroundColor(.white)
-                    Text("🥸").font(Font.system(size: 90))
-                }
+
+                imageView(image: "🥸")
             }
         }
         .navigationTitle(" ")
@@ -81,13 +51,44 @@ struct finalView: View
                         Image(systemName: "arrow.counterclockwise")
                     })
                 }
-            
              }
          }
     }
 }
 
-func test() {
+struct textView: View
+{
+    var text: String
+    
+    var body: some View
+    {
+        Text(text)
+            .font(.largeTitle)
+            .fontWeight(.thin)
+            .foregroundColor(.green)
+            .multilineTextAlignment(.center)
+            .lineLimit(nil)
+            .padding()
+    }
+}
+
+struct imageView: View
+{
+    var image: String
+    
+    var body: some View
+    {
+        ZStack
+        {
+            RoundedRectangle(cornerRadius: 20)
+                .fill()
+                .foregroundColor(.white)
+            RoundedRectangle(cornerRadius: 20)
+                .strokeBorder(lineWidth: 2)
+                .foregroundColor(.white)
+            Text(image).font(Font.system(size: 90))
+        }
+    }
 }
 
 
@@ -105,8 +106,10 @@ func test() {
 
 
 
-struct finalView_Previews: PreviewProvider {
-    static var previews: some View {
+struct finalView_Previews: PreviewProvider
+{
+    static var previews: some View
+    {
         finalView(nrCorrect: 0, nrInCorrect: 2)
     }
 }
