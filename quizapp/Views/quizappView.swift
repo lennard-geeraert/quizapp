@@ -39,6 +39,7 @@ struct quizappView: View
                     }
                     .font(.largeTitle)
                     .padding()
+                    .offset(y: -70)
                     
                     ZStack
                     {
@@ -49,9 +50,11 @@ struct quizappView: View
                             .font(.body)
                             .fontWeight(.regular)
                             .foregroundColor(.black)
+                            .lineLimit(nil)
                             .padding()
 //                            .font(.largeTitle)
                     }
+                    .offset(y: -55)
                     
                     let temporaryAnswers = giveArray(prefix: 3, incorrectAns: questions[self.i].incorrectAnswers, correctAns: questions[self.i].correctAnswer)
                     
@@ -152,7 +155,7 @@ struct CardView: View
                 .fill()
                 .foregroundColor(.white)
             shape
-                .stroke(lineWidth: 3)
+                .stroke(lineWidth: 2)
                 .foregroundColor(.gray)
             Text(answer)
                 .font(.body)
@@ -160,6 +163,7 @@ struct CardView: View
                 .fontWeight(.medium)
                 .foregroundColor(.black)
                 .multilineTextAlignment(.center)
+                .lineLimit(nil)
                 .padding()
         }
     }

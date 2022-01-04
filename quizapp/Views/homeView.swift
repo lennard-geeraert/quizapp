@@ -9,7 +9,6 @@ import SwiftUI
 
 struct homeView: View
 {
-//        @State var score = 0
     @ObservedObject var viewModel: quizappViewModel
         
     var body: some View
@@ -23,25 +22,34 @@ struct homeView: View
                 VStack(spacing: 20)
                 {
                     Text("Welcome to the quizapp game")
+                        .font(.title2)
+                        .fontWeight(.thin)
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(nil)
+                        .padding()
+                        .offset(y: -200)
                     
-                    // hier later thema en difficulty kiezen
-                    // naargelang difficulty en thema wordt er een API van het internet ingeladen
-                    
-                    NavigationLink(destination: quizappView(viewModel: quizappViewModel()))
-                    {
-                        Text("START QUIZ")
-                    }
-                    NavigationLink(destination: makeQuestionView(viewModel: quizappViewModel()))
-                    {
-                        Text("EDIT QUIZ")
-                    }
-    //                    HStack{
-    //                        Text("last score : \(self.score) / \(myQuiz1.count)")          .onAppear(){
-    //                                self.score = LoadScore(quiz:"myQuiz1")
-    //
-    //                        }
-    //
-    //                    }
+                    NavigationLink(destination: quizappView(viewModel: quizappViewModel()), label: {
+                        
+                        Label("START QUIZ", systemImage: "gamecontroller")
+                            .frame(width: 220, height: 40, alignment: .center)
+                            .background(.gray)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                        
+                    })
+                    .offset(y: -200)
+                    NavigationLink(destination: makeQuestionView(viewModel: quizappViewModel()), label: {
+                        
+                        Label("EDIT QUIZ", systemImage: "pencil")
+                            .frame(width: 220, height: 40, alignment: .center)
+                            .background(.gray)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                        
+                    })
+                    .offset(y: -200)
                 }
             }
             .navigationBarTitle("Quizapp",displayMode: .inline)

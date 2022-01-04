@@ -50,7 +50,11 @@ struct makeQuestionView: View
                     Button {
                     }   label:
                     {
-                        Image(systemName: "house")
+                        NavigationLink(destination: homeView(viewModel: viewModel)) {
+                            Button(action: {makeQuestion()}, label: {
+                                Image(systemName: "house")
+                            })
+                        }
                     }
                     NavigationLink(destination: homeView(viewModel: viewModel), label: {
                             Button(action: {makeQuestion()}, label: {
