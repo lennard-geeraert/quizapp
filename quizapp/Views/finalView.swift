@@ -11,6 +11,7 @@ struct finalView: View
 {
     @Binding var nrCorrect: Int
     @Binding var nrInCorrect: Int
+    @Binding var category: String
     
     var body: some View
     {
@@ -47,7 +48,7 @@ struct finalView: View
                     NavigationLink(destination: homeView(viewModel: quizappViewModel()), label: {
                         Image(systemName: "house")
                     })
-                    NavigationLink(destination: quizappView(viewModel: quizappViewModel()), label: {
+                    NavigationLink(destination: quizappView(viewModel: quizappViewModel(), category: $category), label: {
                         Image(systemName: "arrow.counterclockwise")
                     })
                 }

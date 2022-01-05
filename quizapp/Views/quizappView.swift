@@ -19,13 +19,14 @@ struct quizappView: View
     @State var nrOfWrongAnswers = 0
     @State private var showAnswer = false
     
+    @Binding var category: String
+    
     var body: some View
     {
-        var questions = viewModel.questions
         VStack
         {
-            
-            
+            let questions = viewModel.questions
+    
             if(!questions.isEmpty)
             {
                 if(self.i < questions.count)
@@ -109,7 +110,7 @@ struct quizappView: View
                     .padding(.bottom)
                 }
                 else {
-                    finalView(nrCorrect: $nrOfCorrectAnswers, nrInCorrect: $nrOfWrongAnswers)
+                    finalView(nrCorrect: $nrOfCorrectAnswers, nrInCorrect: $nrOfWrongAnswers, category: $category)
                 }
             }
             // show wait sign if data is not yet loaded
@@ -123,22 +124,8 @@ struct quizappView: View
                 }
             }
         }
-        .onAppear {questions = viewModel.questions}
+        .onAppear{viewModel.giveCorrectQuestions(category: self.category)}
         .padding()
-        .navigationTitle(" ")
-        .toolbar
-        {
-            ToolbarItemGroup(placement: .navigationBarTrailing)
-            {
-                Button {
-                }   label:
-                {
-                    NavigationLink(destination: quizappView(viewModel: viewModel), label: {
-                        Image(systemName: "arrow.counterclockwise")
-                    })
-                }
-             }
-         }
     }
 }
 
@@ -212,14 +199,14 @@ struct CardView: View
 
 
 
-struct ContentView_Previews: PreviewProvider
-{
-    static var previews: some View
-    {
-        let game = quizappViewModel()
-        quizappView(viewModel: game)
-            .preferredColorScheme(.light)
-        quizappView(viewModel: game)
-            .preferredColorScheme(.dark)
-    }
-}
+//struct ContentView_Previews: PreviewProvider
+//{
+//    static var previews: some View
+//    {
+//        let game = quizappViewModel()
+//        quizappView(viewModel: game)
+//            .preferredColorScheme(.light)
+//        quizappView(viewModel: game)
+//            .preferredColorScheme(.dark)
+//    }
+//}

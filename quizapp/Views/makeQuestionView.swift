@@ -22,14 +22,22 @@ struct makeQuestionView: View
     
     var body: some View
     {
+        let categories = viewModel.categories
+        
         ZStack
         {
             Form
             {
+                Section {
+                    Picker(selection: $category, label: Text("Choose Category"))
+                    {
+                        ForEach(categories, id: \.self) { cat in
+                            Text(cat)
+                        }
+                    }
+                }
                 Section(header: Text("General information"))
                 {
-                    TextField("Theme of question", text: $category)
-                        .foregroundColor(isStringCorrect(string: category) ? .green : .red)
                     TextField("Question", text: $question)
                         .foregroundColor(isStringCorrect(string: question) ? .green : .red)
                     TextField("Correct Answer", text: $correctAnswer)
@@ -51,7 +59,7 @@ struct makeQuestionView: View
                     }   label:
                     {
                         NavigationLink(destination: homeView(viewModel: viewModel)) {
-                            Button(action: {makeQuestion()}, label: {
+                            Button(action: {}, label: {
                                 Image(systemName: "house")
                             })
                         }
@@ -90,7 +98,7 @@ struct makeQuestionView: View
     func makeQuestion()
     {
         let incAnswers = [incorrectAnswer1, incorrectAnswer2, incorrectAnswer3]
-        viewModel.makeQuestion(theme: self.category, quest: self.question, correctAns: self.correctAnswer, incorrectAns: incAnswers)
+        viewModel.makeQuestion(category: self.category, quest: self.question, correctAns: self.correctAnswer, incorrectAns: incAnswers)
         presentationMode.wrappedValue.dismiss()
     }
     

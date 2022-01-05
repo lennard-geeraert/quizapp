@@ -8,12 +8,15 @@
 import SwiftUI
 
 @main
-struct quizappApp: App {
+struct quizappApp: App
+{
     // here you van use let because class is a pointer and so doesn't really changes, but the class does
     private let game = quizappViewModel()
     
-    var body: some Scene {
-        WindowGroup {
+    var body: some Scene
+    {
+        WindowGroup
+        {
             homeView(viewModel: game)
         }
     }

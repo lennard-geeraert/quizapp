@@ -10,12 +10,16 @@ import SwiftUI
 struct homeView: View
 {
     @StateObject var viewModel: quizappViewModel
+    @State var category: String = "Film and TV"
         
     var body: some View
     {
-        let questions = viewModel.questions
+        let questions_food_and_drinks = viewModel.questions_food_and_drinks
+        let questions_music = viewModel.questions_music
+        let questions_movies = viewModel.questions_movies
+        let categories = viewModel.categories
         
-        if(!questions.isEmpty)
+        if(!questions_food_and_drinks.isEmpty && !questions_music.isEmpty && !questions_movies.isEmpty)
         {
             NavigationView
             {
@@ -30,7 +34,7 @@ struct homeView: View
                         .padding()
                         .offset(y: -200)
                     
-                    NavigationLink(destination: quizappView(viewModel: viewModel), label: {
+                    NavigationLink(destination: quizappView(viewModel: viewModel, category: $category), label: {
                         
                         labelView(text: "START QUIZ", image: "gamecontroller")
                     })
@@ -40,6 +44,15 @@ struct homeView: View
                         labelView(text: "EDIT QUIZ", image: "pencil")
                     })
                     .offset(y: -200)
+                    
+                    Section {
+                        Picker(selection: $category, label: Text("Choose Category"))
+                        {
+                            ForEach(categories, id: \.self) { cat in
+                                Text(cat)
+                            }
+                        }
+                    }
                 }
             }
             .navigationBarTitle("", displayMode: .inline)
