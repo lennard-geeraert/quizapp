@@ -110,7 +110,7 @@ struct quizappView: View
                     .padding(.bottom)
                 }
                 else {
-                    finalView(nrCorrect: $nrOfCorrectAnswers, nrInCorrect: $nrOfWrongAnswers, category: $category)
+                    finalView(nrCorrect: $nrOfCorrectAnswers, nrInCorrect: $nrOfWrongAnswers, category: $category, viewModel: viewModel)
                 }
             }
             // show wait sign if data is not yet loaded

@@ -13,13 +13,16 @@ struct finalView: View
     @Binding var nrInCorrect: Int
     @Binding var category: String
     
+    @StateObject var viewModel: quizappViewModel
+    
     var body: some View
     {
         let totalNr = nrCorrect + nrInCorrect
+        let half = ceil(CGFloat(totalNr)/2)
         
         VStack
         {
-            if(nrCorrect < totalNr/2)
+            if(CGFloat(nrCorrect) < half)
             {
                 textView(text: "Better luck next time...")
                 
@@ -37,6 +40,7 @@ struct finalView: View
                 imageView(image: "🥸")
             }
         }
+        .onAppear{viewModel.setBestScore(category: category, score: nrCorrect)}
         .navigationTitle(" ")
         .toolbar
         {
@@ -45,10 +49,10 @@ struct finalView: View
                 Button {
                 }   label:
                 {
-                    NavigationLink(destination: homeView(viewModel: quizappViewModel()), label: {
-                        Image(systemName: "house")
-                    })
-                    NavigationLink(destination: quizappView(viewModel: quizappViewModel(), category: $category), label: {
+//                    NavigationLink(destination: homeView(viewModel: quizappViewModel()), label: {
+//                        Image(systemName: "house")
+//                    })
+                    NavigationLink(destination: quizappView(viewModel: viewModel, category: $category), label: {
                         Image(systemName: "arrow.counterclockwise")
                     })
                 }

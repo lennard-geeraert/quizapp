@@ -10,7 +10,7 @@ import SwiftUI
 struct homeView: View
 {
     @StateObject var viewModel: quizappViewModel
-    @State var category: String = "Film and TV"
+    @State var category: String = "Food and Drinks"
         
     var body: some View
     {
@@ -26,7 +26,7 @@ struct homeView: View
                 VStack(spacing: 20)
                 {
                     Text("Welcome to the quizapp game")
-                        .font(.title2)
+                        .font(.title)
                         .fontWeight(.thin)
                         .foregroundColor(.black)
                         .multilineTextAlignment(.center)
@@ -44,7 +44,12 @@ struct homeView: View
                         labelView(text: "EDIT QUIZ", image: "pencil")
                     })
                     .offset(y: -200)
-                    
+                    Text("Choose category")
+                        .font(.title3)
+                        .fontWeight(.thin)
+                        .multilineTextAlignment(.center)
+                    Image(systemName: "chevron.down")
+                        .multilineTextAlignment(.center)
                     Section {
                         Picker(selection: $category, label: Text("Choose Category"))
                         {
@@ -53,6 +58,12 @@ struct homeView: View
                             }
                         }
                     }
+                    let total = viewModel.getNumberOfQuestion(category: self.category)
+                    let halfTotal = ceil(CGFloat(total)/2)
+                    let correct = viewModel.getBestScore(category: self.category)
+                    Text("Best score \(correct)/\(total) \(halfTotal < CGFloat(correct) ? " 🥸" : " 🤯")")
+                        .fontWeight(.thin)
+                        .offset(y: 100)
                 }
             }
             .navigationBarTitle("", displayMode: .inline)

@@ -19,6 +19,7 @@ struct makeQuestionView: View
     @State private var incorrectAnswer1 = ""
     @State private var incorrectAnswer2 = ""
     @State private var incorrectAnswer3 = ""
+    @State private var showAlert = false
     
     var body: some View
     {
@@ -58,22 +59,33 @@ struct makeQuestionView: View
                     Button {
                     }   label:
                     {
-                        NavigationLink(destination: homeView(viewModel: viewModel)) {
-                            Button(action: {}, label: {
-                                Image(systemName: "house")
-                            })
-                        }
+//                        NavigationLink(destination: homeView(viewModel: viewModel)) {
+//                            Button(action: {}, label: {
+//                                Image(systemName: "house")
+//                            })
+//                        }
                     }
                     Button(action: {clearText()}, label: {
                         Image(systemName: "trash")
                     })
                     NavigationLink(destination: homeView(viewModel: viewModel), label: {
-                            Button(action: {makeQuestion()}, label: {
+                            Button(action: {
+                                if(everyAnswerDifferent()){
+                                    makeQuestion()
+                                }
+                                else {
+                                    showAlert = true
+                                }
+                            }, label: {
                                 Image(systemName: "checkmark")
                             }).disabled(!allesCorrect())
                     })
                  }
              }
+        }
+        .actionSheet(isPresented: $showAlert) {
+            ActionSheet(title: Text("ANSWERS MUST BE DIFFERENT!"),
+                        buttons: [.cancel()])
         }
     }
     
@@ -93,6 +105,14 @@ struct makeQuestionView: View
             return false
         }
         return true
+    }
+    
+    func everyAnswerDifferent() -> Bool
+    {
+        if(correctAnswer != incorrectAnswer1  && correctAnswer != incorrectAnswer2 && correctAnswer != incorrectAnswer3 && incorrectAnswer1 != incorrectAnswer2 && incorrectAnswer1 != incorrectAnswer3 && incorrectAnswer2 != incorrectAnswer3){
+            return true
+        }
+        return false
     }
     
     func makeQuestion()
